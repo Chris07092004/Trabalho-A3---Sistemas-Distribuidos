@@ -6,7 +6,7 @@ export const create = async (req, res) => {
   const { nome, descricao } = req.body;
   if (!nome || descricao == null) return res.status(400).json({ error: 'nome e descrição obrigatórios' });
   try {
-    await firebaseServices.saveCategoria({nome: nome, descrição: descricao });
+    await firestoreServices.saveCategoria({nome: nome, descricao: descricao });
 
     res.status(201).json({nome: nome, descrição: descricao });
     res.status(201).json({ id: ref.id, nome, descricao });

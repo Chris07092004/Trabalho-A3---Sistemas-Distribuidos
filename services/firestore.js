@@ -6,8 +6,8 @@ import { getFirestore,
 // Initialize Cloud Firestore and get a reference to the service
 export const db = getFirestore(firebaseApp);
 const timesCollection = collection(db, 'times');
-const ProdutosCollection = collection(db, 'products');
-const CategoriasCollection = collection(db, 'categories');
+const produtosCollection = collection(db, 'products');
+const categoriasCollection = collection(db, 'categories');
 
 const firestoreServices = {
 
