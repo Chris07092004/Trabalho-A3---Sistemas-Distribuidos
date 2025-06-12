@@ -6,7 +6,9 @@ export const create = async (req, res) => {
   const { nome, descricao } = req.body;
   if (!nome || descricao == null) return res.status(400).json({ error: 'nome e descrição obrigatórios' });
   try {
-    const ref = await db.collection(COL).add({ nome, descricao });
+    await firebaseServices.saveCategoria({nome: nome, descrição: descricao });
+
+    res.status(201).json({nome: nome, descrição: descricao });
     res.status(201).json({ id: ref.id, nome, descricao });
   } catch (erro) {
     res.status(500).json({ error: 'Erro ao criar categoria.', details: erro.message });
