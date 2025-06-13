@@ -90,8 +90,9 @@ const firebaseConfig = {
 
 - **Criar categoria**  
   `POST /api/categories`
+  content-type │ aplication/json
 
-```content-type │ aplication/json
+```
 {
   "nome": "Livros",
   "descricao": "Categoria de livros"
@@ -103,8 +104,9 @@ const firebaseConfig = {
 
 - **Atualizar categoria**  
   `PUT /api/categories/:id`
+  content-type │ aplication/json
 
-```content-type │ aplication/json
+```
 {
   "nome": "Atualizado",
   "descricao": "Descrição nova"
@@ -120,8 +122,9 @@ const firebaseConfig = {
 
 - **Criar produto**  
   `POST /api/products`
+  content-type │ aplication/json
 
-```content-type │ aplication/json
+```
 {
   "nome": "Notebook",
   "preco": 4200
@@ -133,8 +136,9 @@ const firebaseConfig = {
 
 - **Atualizar produto**  
   `PUT /api/products/:id`
+  content-type │ aplication/json
 
-```content-type │ aplication/json
+```
 {
   "nome": "Notebook Gamer",
   "preco": 5000
