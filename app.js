@@ -21,11 +21,6 @@ import logger from 'morgan';
 //var indexRouter = require('./routes/index');
 import indexRouter from './routes/index.js';
 
-import usersRouter from './routes/users.js';
-import rotaTimes from './routes/times.js';
-import rotaJogadores from './routes/jogadores.js';
-//const rotaContratos = require('./routes/contratos');
-import { rotaContratos } from './routes/contratos.js';
 import productRoutes  from './routes/productRoutes.js'
 import categoryRoutes from './routes/categoryRoutes.js'
 
@@ -38,10 +33,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/times', rotaTimes);
-app.use('/jogadores', rotaJogadores);
-app.use('/contratos', rotaContratos);
 app.use('/api', productRoutes);
 app.use('/api', categoryRoutes)
 export default app;

@@ -4,11 +4,12 @@ const COL = 'products';
 
 export const create = async (req, res) => {
   const { nome, preco } = req.body;
-  if (!nome || preco == null) return res.status(400).json({ error: 'nome e preco obrigatórios' });
+  if (!nome || preco == null) return res.status(400).json({ error: 'nome e preço obrigatórios' });
   try {
-    const ref = await db.collection(COL).add({ nome, preco });
-    res.status(201).json({ id: ref.id, nome, preco });
-  } catch (erro) {
+    await firestoreServices.saveProduto({nome: nome, preco: preco });
+
+    res.status(201).json({ nome, preco });
+    } catch (erro) {
     res.status(500).json({ error: 'Erro ao criar produto.', details: erro.message });
   }
 };
@@ -25,11 +26,14 @@ export const list = async (_req, res) => {
 export const update = async (req, res) => {
   const { id } = req.params;
   const { nome, preco } = req.body;
+
   try {
-    const ref = db.collection(COL).doc(id);
-    await ref.update({ ...(nome && { nome }), ...(preco != null && { preco }) });
-    const updated = await ref.get();
-    res.json({ id: updated.id, ...updated.data() });
+    const dadosAtualizados = {};
+    if (nome) dadosAtualizados.nome = nome;
+    if (preco != null) dadosAtualizados.preco = preco;
+
+    const updated = await firestoreServices.updateProduct(id, dadosAtualizados);
+    res.json(updated);
   } catch (erro) {
     res.status(500).json({ error: 'Erro ao atualizar produto.', details: erro.message });
   }
@@ -38,8 +42,8 @@ export const update = async (req, res) => {
 export const remove = async (req, res) => {
   const { id } = req.params;
   try {
-    await db.collection(COL).doc(id).delete();
-    res.status(204).send();
+    await firestoreServices.deleteProduct(id);
+    res.status(204).send(); // 204 = No Content
   } catch (erro) {
     res.status(500).json({ error: 'Erro ao deletar produto.', details: erro.message });
   }

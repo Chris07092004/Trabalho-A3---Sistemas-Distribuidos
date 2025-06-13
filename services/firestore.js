@@ -1,11 +1,10 @@
 import firebaseApp from "./firebaseApp.js";
 import { getFirestore,  
     collection, query, 
-    where, getDocs, setDoc, doc  } from "firebase/firestore";
+    where, getDocs, getDoc, setDoc, doc, updateDoc, deleteDoc  } from "firebase/firestore";
 
 // Initialize Cloud Firestore and get a reference to the service
 export const db = getFirestore(firebaseApp);
-const timesCollection = collection(db, 'times');
 const produtosCollection = collection(db, 'products');
 const categoriasCollection = collection(db, 'categories');
 
@@ -13,29 +12,11 @@ const firestoreServices = {
 
 
 
-    saveTime(time) {
-        console.log(time);
-        const docRef = doc(timesCollection);
-        setDoc(docRef, time);
-    },
-    async getAllTimes() {
-        const result = [];
-        const q = query(timesCollection);
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-            // doc.data() is never undefined for query doc snapshots
-            console.log(doc.id, " => ", doc.data());
-            let d = doc.data();
-            d.id = doc.id;
-            result.push(d) ;   
-        });
-        return result;
-    },
-    saveTime(produto) {
-        console.log(produto);
-        const docRef = doc(produtosCollection);
-        setDoc(docRef, produto);
-    },
+    saveProduto(produto) {
+    const docRef = doc(collection(db, "products")); // 👍 correto
+    return setDoc(docRef, produto);
+  },
+
     async getAllProducts() {
         const result = [];
         const q = query(collection(db, 'products'));
@@ -49,6 +30,27 @@ const firestoreServices = {
         })
         return result;
     },
+async updateProduct(id, data) {
+  try {
+    const ref = doc(db, "products", id);
+    await updateDoc(ref, data);
+    const updatedDoc = await getDoc(ref);
+    return { id: updatedDoc.id, ...updatedDoc.data() };
+  } catch (erro) {
+    throw new Error("Erro ao atualizar produto: " + erro.message);
+  }
+},
+
+
+async deleteProduct(id) {
+  try {
+    const ref = doc(db, "products", id);
+    await deleteDoc(ref);
+  } catch (erro) {
+    throw new Error("Erro ao deletar produto: " + erro.message);
+  }
+},
+
     async getAllCategories() {
         const result = [];
         const q = query(collection(db, 'categories'));
@@ -67,6 +69,27 @@ const firestoreServices = {
         setDoc(docRef, categoria);
     },
 
-}
+async updateCategory(id, data) {
+  try {
+    const ref = doc(db, "categories", id);
+    await updateDoc(ref, data);
+    const updatedDoc = await getDoc(ref);
+    return { id: updatedDoc.id, ...updatedDoc.data() };
+  } catch (erro) {
+    throw new Error("Erro ao atualizar categoria: " + erro.message);
+  }
+},
+
+ async deleteCategory(id) {
+    try {
+      const ref = doc(db, "categories", id);
+      await deleteDoc(ref);
+    } catch (erro) {
+      throw new Error("Erro ao deletar categoria: " + erro.message);
+    }
+  }
+};
+
+
 
 export default firestoreServices;

@@ -9,8 +9,7 @@ export const create = async (req, res) => {
     await firestoreServices.saveCategoria({nome: nome, descricao: descricao });
 
     res.status(201).json({nome: nome, descrição: descricao });
-    res.status(201).json({ id: ref.id, nome, descricao });
-  } catch (erro) {
+    } catch (erro) {
     res.status(500).json({ error: 'Erro ao criar categoria.', details: erro.message });
   }
 };
@@ -27,11 +26,14 @@ export const list = async (_req, res) => {
 export const update = async (req, res) => {
   const { id } = req.params;
   const { nome, descricao } = req.body;
+
   try {
-    const ref = db.collection(COL).doc(id);
-    await ref.update({ ...(nome && { nome }), ...(descricao != null && { descrição }) });
-    const updated = await ref.get();
-    res.json({ id: updated.id, ...updated.data() });
+    const dadosAtualizados = {};
+    if (nome) dadosAtualizados.nome = nome;
+    if (descricao != null) dadosAtualizados.descricao = descricao;
+
+    const updated = await firestoreServices.updateCategory(id, dadosAtualizados);
+    res.json(updated);
   } catch (erro) {
     res.status(500).json({ error: 'Erro ao atualizar categoria.', details: erro.message });
   }
@@ -40,8 +42,8 @@ export const update = async (req, res) => {
 export const remove = async (req, res) => {
   const { id } = req.params;
   try {
-    await db.collection(COL).doc(id).delete();
-    res.status(204).send();
+    await firestoreServices.deleteCategory(id);
+    res.status(204).send(); // 204 = No Content
   } catch (erro) {
     res.status(500).json({ error: 'Erro ao deletar categoria.', details: erro.message });
   }
