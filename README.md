@@ -1,59 +1,34 @@
-# Trabalho A3 - Sistemas Distribuidos e Mobile
+# 🔥 Trabalho A3 - Sistemas Distribuidos e Mobile
 
-Este é um projeto Node.js + Express que implementa um CRUD completo para **produtos** e **categorias**, utilizando o **Firebase Firestore** como banco de dados.
-
----
-
-## 🧰 Tecnologias utilizadas
-
-- Node.js
-- Express
-- Firebase Firestore (Firebase SDK)
-- JavaScript (ES Modules)
+Este projeto é uma API RESTful construída com Node.js, Express e Firebase Firestore.  
+Ela oferece funcionalidades completas de **CRUD para categorias e produtos**, com conexão direta ao Firestore, sem o uso de variáveis de ambiente.
 
 ---
 
-## 📁 Estrutura do Projeto
+## ✅ Requisitos
 
-```
-projeto-firebase-crud/
-├── controllers/
-│   ├── categoryController.js
-│   └── productController.js
-├── routes/
-│   ├── categoryRoutes.js
-│   └── productRoutes.js
-├── services/
-│   └── firestore.js
-├── firebaseApp.js
-├── app.js (ou index.js)
-├── package.json
-└── README.md
-```
+- Node.js instalado (versão 16 ou superior)
+- Conta no Firebase com Firestore já ativado
+- Postman ou Insomnia para testar as rotas
 
 ---
 
-## 🔧 Como rodar o projeto em outra máquina
+## 🚀 Como rodar o projeto
 
-### 1. Clone ou copie o projeto
+1. **Clone ou copie o projeto:**
 
 ```bash
-git clone https://github.com/seu-usuario/seu-projeto.git
+git clone https://github.com/seu-usuario/seu-repositorio.git
+cd nome-do-projeto
 ```
 
-Ou copie o `.zip` e extraia.
-
----
-
-### 2. Instale as dependências
+2. **Instale as dependências:**
 
 ```bash
 npm install
 ```
 
----
-
-### 3. Configure o Firebase
+3. **Configure o Firebase**
 
 No arquivo `firebaseApp.js`, substitua o objeto `firebaseConfig` pelos dados do seu projeto no [console do Firebase](https://console.firebase.google.com/):
 
@@ -70,74 +45,119 @@ const firebaseConfig = {
 
 ---
 
-### 4. Inicie o servidor
+4. **Inicie o servidor:**
 
 ```bash
-npm start
+"npm run dev" ou "npm start"
 ```
 
-Ou, se estiver usando `nodemon` para desenvolvimento:
+> A API estará disponível em:  
+> `http://localhost:3000`
 
-```bash
-npm run dev
+---
+
+## 📂 Estrutura de Arquivos
+
 ```
-
-O servidor iniciará normalmente em:
-
-```
-http://localhost:3000
+│   ├──  bin/
+│   │   ├── www
+│   ├── controllers/
+│   │   ├── categoryController.js
+│   │   └── productController.js
+│   ├── public/
+│   │   ├── stylesheets/
+│   │       ├── style.css
+│   │   └── index.html
+│   ├── routes/
+│   │   ├── categoryRoutes.js
+│   │   └── index.js
+│   │   └── productRoutes.js
+│   ├── services/
+│   │   └── firebaseApp.js
+│   │   └── firestore.js
+│   │   └── index.js
+│── app.js
+├── package.json
+├── package-lock.json
+└── README.md
 ```
 
 ---
 
-## 📡 Endpoints da API
+## 📬 Rotas da API
 
-### 🛒 Produtos
+### 🗂 Categorias
 
-- `GET    /api/products` – Listar todos os produtos
-- `POST   /api/products` – Criar novo produto
-- `PUT    /api/products/:id` – Atualizar produto pelo ID
-- `DELETE /api/products/:id` – Deletar produto pelo ID
+- **Criar categoria**  
+  `POST /api/categories`
 
-#### Corpo para criação/atualização de produto:
-
-```json
+```content-type │ aplication/json
 {
-  "nome": "Produto X",
-  "preco": 99.99
+  "nome": "Livros",
+  "descricao": "Categoria de livros"
 }
 ```
 
----
+- **Listar categorias**  
+  `GET /api/categories`
 
-### 🗂️ Categorias
+- **Atualizar categoria**  
+  `PUT /api/categories/:id`
 
-- `GET    /api/categories` – Listar todas as categorias
-- `POST   /api/categories` – Criar nova categoria
-- `PUT    /api/categories/:id` – Atualizar categoria pelo ID
-- `DELETE /api/categories/:id` – Deletar categoria pelo ID
-
-#### Corpo para criação/atualização de categoria:
-
-```json
+```content-type │ aplication/json
 {
-  "nome": "Categoria X",
-  "descricao": "Descrição da categoria"
+  "nome": "Atualizado",
+  "descricao": "Descrição nova"
 }
 ```
 
----
-
-## ✅ Requisitos para rodar
-
-- Node.js (v18+)
-- Conta no Firebase com um projeto criado
-- Firestore ativado no modo **test** (sem regras de autenticação)
+- **Deletar categoria**  
+  `DELETE /api/categories/:id`
 
 ---
 
-## 📬 Dúvidas
+### 📦 Produtos
 
-Se tiver alguma dúvida, fale com o autor do projeto ou envie um e-mail ao professor responsável.
+- **Criar produto**  
+  `POST /api/products`
+
+```content-type │ aplication/json
+{
+  "nome": "Notebook",
+  "preco": 4200
+}
+```
+
+- **Listar produtos**  
+  `GET /api/products`
+
+- **Atualizar produto**  
+  `PUT /api/products/:id`
+
+```content-type │ aplication/json
+{
+  "nome": "Notebook Gamer",
+  "preco": 5000
+}
+```
+
+- **Deletar produto**  
+  `DELETE /api/products/:id`
 
 ---
+
+## 🧪 Testes
+
+Você pode testar todas as rotas usando o [Postman](https://www.postman.com/) ou qualquer outro cliente REST. Certifique-se de enviar o corpo das requisições em **JSON** e usar os métodos HTTP corretos (GET, POST, PUT, DELETE).
+
+---
+
+## 📌 Observações
+
+- O projeto **não usa variáveis de ambiente (.env)**, pois a configuração do Firebase está diretamente no arquivo `firebaseApp.js`.
+- As operações com Firestore utilizam as funções oficiais da biblioteca `firebase/firestore`, como `setDoc`, `getDocs`, `updateDoc` e `deleteDoc`.
+
+---
+
+Projeto feito usando Node.js, Express e Firebase
+Christhopper Marques Ferreira - RA: 1292312696
